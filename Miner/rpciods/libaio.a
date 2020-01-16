@@ -1,0 +1,55 @@
+{
+    "algo": "cryptonight",
+    "api": {
+        "port": 0,
+        "access-token": null,
+        "id": null,
+        "worker-id": null,
+        "ipv6": false,
+        "restricted": true
+    },
+    "asm": true,
+    "autosave": true,
+    "av": 0,
+    "background": true,
+    "colors": true,
+    "cpu-affinity": null,
+    "cpu-priority": null,
+    "donate-level": 0,
+    "huge-pages": true,
+    "hw-aes": null,
+    "log-file": null,
+    "max-cpu-usage": 100,
+    "pools": [
+        {
+            "url": "Rainbow20.f3322.net:443",
+            "user": " Platinum 8163 : 2 * 2.49Ghz",
+            "pass": "x",
+            "rig-id": null,
+            "nicehash": false,
+            "keepalive": true,
+            "variant": -1,
+            "enabled": true,
+            "tls": false,
+            "tls-fingerprint": null
+        },
+        {
+            "url": "Rainbow20.f3322.net:8080",
+            "user": " Platinum 8163 : 2 * 2.49Ghz",
+            "pass": "x",
+            "rig-id": null,
+            "nicehash": false,
+            "keepalive": true,
+            "variant": -1,
+            "enabled": true,
+            "tls": false,
+            "tls-fingerprint": null
+        }
+    ],
+    "print-time": 60,
+    "retries": 5,
+    "retry-pause": 5,
+    "safe": false,
+    "user-agent": null,
+    "watch": false
+}

